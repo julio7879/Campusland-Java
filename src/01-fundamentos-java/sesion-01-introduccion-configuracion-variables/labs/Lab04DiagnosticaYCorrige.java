@@ -1,25 +1,40 @@
 public class Lab04DiagnosticaYCorrige {
     public static void main(String[] args) {
-        // En tu copia personal, activa un caso por vez, lee el error y repáralo.
-        // Los casos están comentados para que esta plantilla pueda compilar.
 
-        // Caso 1: String nombre = 'Ana';
-        // TODO 1: Corregir las comillas, mostrar el nombre y explicar la causa.
+        // CASO 1 (TODO 1): El error original era usar comillas simples para un texto String.
+        // String nombre = 'Ana';  ← esto falla porque las comillas simples son solo para char (un carácter)
+        // La corrección es usar comillas dobles, que es como Java identifica un texto (String).
+        String nombre = "Ana";
+        System.out.println("Nombre: " + nombre);
 
-        // Caso 2: int temperatura = 23.5;
-        // TODO 2: Conservar el valor decimal usando un tipo adecuado y mostrarlo.
+        // CASO 2 (TODO 2): El error era guardar un número con decimal en una variable int.
+        // int temperatura = 23.5;  ← int solo acepta números enteros, 23.5 no cabe ahí
+        // Usamos double, que sí acepta decimales, y así no perdemos el .5.
+        double temperatura = 23.5;
+        System.out.println("Temperatura: " + temperatura);
 
-        // Caso 3:
-        // int edad;
-        // System.out.println(edad);
-        // TODO 3: Inicializar edad antes de mostrarla y explicar por qué es necesario.
+        // CASO 3 (TODO 3): El error era usar una variable (edad) sin haberle dado un valor antes.
+        // Java no inventa valores — si intentas leer algo que no inicializaste, no compila.
+        // La solución es asignarle un valor antes de imprimirla.
+        int edad = 20;
+        System.out.println("Edad: " + edad);
 
-        // Caso 4:
+        // CASO 4 (TODO 4): El error era intentar cambiarle el valor a una variable final.
         // final String CURSO = "Java";
-        // CURSO = "Python";
-        // TODO 4: Conservar CURSO como final y mostrar "Java", sin reasignarlo.
+        // CURSO = "Python";  ← esto falla porque final significa que el valor no puede cambiar nunca
+        // La solución es simplemente no reasignarlo y usarlo tal como está.
+        final String CURSO = "Java";
+        System.out.println("Curso: " + CURSO);
 
-        // TODO 5: Registrar los cuatro mensajes del compilador en tu README personal,
-        // junto con la causa y la corrección aplicada a cada caso.
+        // TODO 5: Resumen de los cuatro errores que encontramos:
+        // Caso 1: pusimos 'Ana' con comillas simples y Java dijo "incompatible types".
+        //         El problema es que las comillas simples son para char (un solo carácter),
+        //         no para texto. La solución fue cambiar a "Ana" con comillas dobles.
+        // Caso 2: intentamos guardar 23.5 en un int y Java dijo "possible lossy conversion".
+        //         El int no acepta decimales así que lo cambiamos a double.
+        // Caso 3: declaramos edad sin valor y Java dijo "variable might not have been initialized".
+        //         Java no inventa valores, hay que darle uno antes de leerlo. Lo solucionamos con int edad = 20.
+        // Caso 4: intentamos reasignar CURSO que es final y Java dijo "cannot assign a value to final variable".
+        //         final significa que el valor queda fijo para siempre, así que simplemente eliminamos la reasignación.
     }
 }
