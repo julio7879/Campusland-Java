@@ -79,9 +79,4 @@ javac src/01-fundamentos-java/sesion-03-estructuras-repetitivas/labs/reto-04-res
 java -cp src/01-fundamentos-java/sesion-03-estructuras-repetitivas/labs/reto-04-restaurante S03Reto04Restaurante
 ```
 
----
 
-## 5. Nota sobre archivos `.java` vs `.class`
-
-* **`.java` (`S03Reto04Restaurante.java`):** Es el **código fuente**. Es el archivo de texto escrito y legible por programadores. Es el único que se versiona y entrega en el repositorio.
-* **`.class` (`S03Reto04Restaurante.class`):** Es el **código compilado (bytecode)**. Se genera cuando el compilador `javac` traduce el archivo `.java` al formato binario que la Máquina Virtual de Java (JVM) puede interpretar y ejecutar. Estos archivos son temporales/binarios y no deben subirse al repositorio.
