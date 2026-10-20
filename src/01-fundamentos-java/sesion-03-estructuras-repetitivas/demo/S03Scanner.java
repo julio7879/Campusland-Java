@@ -9,6 +9,7 @@ public class S03Scanner {
 
         do{
             System.out.print("Ingrese su edad: ");
+
             while(!scanner.hasNextInt()){
                 System.out.println("Error: Debe ingresar un numero entero");
                 scanner.next();
@@ -26,7 +27,7 @@ public class S03Scanner {
             while(!scanner.hasNextDouble()){
                 System.out.println("Error: Debe ingresar un numero entero o decimal");
                 scanner.next();
-                System.out.println("Ingrese su edad nuevamente: ");
+                System.out.println("Ingrese su salario nuevamente: ");
             }
             double salario = scanner.nextDouble();
 
@@ -36,7 +37,6 @@ public class S03Scanner {
             scanner.close();
         } while (edad < 0 || edad >100);
         System.out.println("Edad válida: " + edad);
-
 
     }
 }

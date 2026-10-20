@@ -18,6 +18,5 @@ public class S03DemoFor {
         }
         System.out.println("Cantidad procesada: " + procesados);
         System.out.println("Suma: " + suma);
-        // La parada tiene prioridad; un elemento omitido no se suma ni se cuenta.
     }
 }
