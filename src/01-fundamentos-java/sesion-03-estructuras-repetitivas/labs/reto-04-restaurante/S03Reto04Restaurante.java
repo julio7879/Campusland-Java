@@ -4,14 +4,14 @@ public class S03Reto04Restaurante {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Precios fijos de cada producto del menú (en pesos)
+        // Precios fijos de cada producto del menú
         final long PRECIO_HAMBURGUESA = 18000;
         final long PRECIO_PIZZA = 25000;
         final long PRECIO_ENSALADA = 15000;
         final long PRECIO_BEBIDA = 6000;
         final long TARIFA_DOMICILIO = 5000;
 
-        // Acumuladores de la jornada completa (Extensión opcional)
+        // Acumuladores de la jornada completa
         int totalClientesAtendidos = 0;
         long totalRecaudadoJornada = 0;
         int totalUnidadesJornada = 0;
@@ -30,7 +30,7 @@ public class S03Reto04Restaurante {
         while (continuarJornada) {
             totalClientesAtendidos++;
             System.out.println("\n------------------------------------------------------");
-            System.out.println(">>> ATENDIENDO CLIENTE #" + totalClientesAtendidos);
+            System.out.println(" ATENDIENDO CLIENTE #" + totalClientesAtendidos);
             System.out.println("------------------------------------------------------");
 
             // Variables acumuladoras que se reinician para cada cliente
@@ -43,14 +43,14 @@ public class S03Reto04Restaurante {
 
             int opcion = 0;
 
-            // Ciclo del menú interactivo: se repite hasta que el cliente elija 5 (Finalizar)
+            // Ciclo del menú interactivo: se repite hasta que el cliente elija 5
             do {
                 System.out.println("\n--- Menú de Productos ---");
-                System.out.println("1=Hamburguesa, 18000 pesos");
-                System.out.println("2=Pizza, 25000 pesos");
-                System.out.println("3=Ensalada, 15000 pesos");
-                System.out.println("4=Bebida, 6000 pesos");
-                System.out.println("5=Finalizar pedido");
+                System.out.println("1 = Hamburguesa, 18000 pesos");
+                System.out.println("2 = Pizza, 25000 pesos");
+                System.out.println("3 = Ensalada, 15000 pesos");
+                System.out.println("4 = Bebida, 6000 pesos");
+                System.out.println("5 = Finalizar pedido");
                 System.out.print("Seleccione una opción: ");
 
                 opcion = scanner.nextInt();
@@ -108,8 +108,10 @@ public class S03Reto04Restaurante {
                 subtotal += importeAgregado;
                 unidadesSolicitadas += cantidad;
 
-                System.out.println("-> Agregado: " + cantidad + " x " + nombreProducto + " = " + importeAgregado + " pesos");
-                System.out.println("-> Subtotal actual: " + subtotal + " pesos | Unidades acumuladas: " + unidadesSolicitadas);
+                System.out.println(
+                        "-> Agregado: " + cantidad + " x " + nombreProducto + " = " + importeAgregado + " pesos");
+                System.out.println(
+                        "-> Subtotal actual: " + subtotal + " pesos | Unidades acumuladas: " + unidadesSolicitadas);
 
             } while (opcion != 5);
 
@@ -131,7 +133,8 @@ public class S03Reto04Restaurante {
                 total = 0;
             } else {
                 // Escala de descuentos por volumen:
-                // Se evalúa primero el mayor (>150.000) para evitar que compras altas caigan en el 10%
+                // Se evalúa primero el mayor (>150.000) para evitar que compras altas caigan en
+                // el 10%
                 if (subtotal > 150000) {
                     descuento = (subtotal * 15) / 100;
                     detalleDescuento = "Aplica 15%";
@@ -165,10 +168,14 @@ public class S03Reto04Restaurante {
             if (unidadesSolicitadas == 0) {
                 System.out.println("  (Ninguno - Pedido vacío)");
             } else {
-                if (cantHamburguesa > 0) System.out.println("  - Hamburguesa x " + cantHamburguesa);
-                if (cantPizza > 0)       System.out.println("  - Pizza x " + cantPizza);
-                if (cantEnsalada > 0)    System.out.println("  - Ensalada x " + cantEnsalada);
-                if (cantBebida > 0)      System.out.println("  - Bebida x " + cantBebida);
+                if (cantHamburguesa > 0)
+                    System.out.println("  - Hamburguesa x " + cantHamburguesa);
+                if (cantPizza > 0)
+                    System.out.println("  - Pizza x " + cantPizza);
+                if (cantEnsalada > 0)
+                    System.out.println("  - Ensalada x " + cantEnsalada);
+                if (cantBebida > 0)
+                    System.out.println("  - Bebida x " + cantBebida);
             }
             System.out.println("---------------------------------");
             System.out.println("Unidades solicitadas : " + unidadesSolicitadas);
@@ -214,7 +221,7 @@ public class S03Reto04Restaurante {
         System.out.println("  - Bebidas      : " + totalBebidasJornada);
         System.out.println("Total dinero recaudado   : " + totalRecaudadoJornada + " pesos");
         System.out.println("======================================================");
-        System.out.println("Jornada finalizada exitosamente. ¡Hasta la próxima!");
+        System.out.println("Jornada finalizada exitosamente.");
 
         scanner.close();
     }
