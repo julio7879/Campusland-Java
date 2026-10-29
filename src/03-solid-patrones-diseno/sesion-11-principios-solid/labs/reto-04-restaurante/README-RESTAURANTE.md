@@ -36,10 +36,10 @@ classDiagram
 
     class Producto {
         <<enumeration>>
-        HAMBURGUESA : 1, 18000
-        PIZZA : 2, 25000
-        ENSALADA : 3, 15000
-        BEBIDA : 4, 6000
+        +HAMBURGUESA
+        +PIZZA
+        +ENSALADA
+        +BEBIDA
         -int opcion
         -String nombre
         -long precio
@@ -50,7 +50,7 @@ classDiagram
     }
 
     class Pedido {
-        -Map~Producto, Long~ cantidades
+        -Map cantidades
         +agregar(Producto producto, int cantidad) void
         +cantidadDe(Producto producto) long
         +getUnidades() long
@@ -102,7 +102,7 @@ classDiagram
         -int clientes
         -long unidades
         -long recaudado
-        -Map~Producto, Long~ vendidos
+        -Map vendidos
         +registrar(Pedido pedido, Cuenta cuenta) void
         +getClientes() int
         +getUnidades() long
@@ -137,7 +137,6 @@ classDiagram
     ConsolaRestaurante ..> Pedido : Crea y llena
     ConsolaRestaurante ..> Cuenta : Imprime resumen
     ConsolaRestaurante o-- Jornada : Acumula totales
-    S11Reto04RestauranteMain ..> S11Reto04RestauranteMain : Ensambla objetos
     S11Reto04RestauranteMain ..> DescuentoPorVolumen : Instancia
     S11Reto04RestauranteMain ..> CalculadoraCuenta : Configura
     S11Reto04RestauranteMain ..> ConsolaRestaurante : Inicia
