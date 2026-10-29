@@ -28,20 +28,165 @@ Ambas peticiones tocaban el **mismo archivo y el mismo método**.
 
 ## 2. Diseño resultante
 
+### Diagrama de Clases UML detallado
+
 ```mermaid
-flowchart LR
-    Main["S11Reto04RestauranteMain"] --> Consola["ConsolaRestaurante"]
-    Main --> Calc["CalculadoraCuenta"]
-    Main --> DPV["DescuentoPorVolumen"]
-    Consola --> Calc
-    Consola --> Pedido
-    Consola --> Jornada
-    Calc --> PD["«interface» PoliticaDescuento"]
-    Calc --> RD["ReglaDomicilio"]
-    Calc --> Pedido
-    Calc --> Cuenta
-    DPV -.implementa.-> PD
-    Pedido --> Producto
+classDiagram
+    direction TB
+
+    class Producto {
+        <<enumeration>>
+        HAMBURGUESA : 1, 18000
+        PIZZA : 2, 25000
+        ENSALADA : 3, 15000
+        BEBIDA : 4, 6000
+        -int opcion
+        -String nombre
+        -long precio
+        +getOpcion() int
+        +getNombre() String
+        +getPrecio() long
+        +desdeOpcion(int opcion)$ Producto
+    }
+
+    class Pedido {
+        -Map~Producto, Long~ cantidades
+        +agregar(Producto producto, int cantidad) void
+        +cantidadDe(Producto producto) long
+        +getUnidades() long
+        +getSubtotal() long
+        +estaVacio() boolean
+    }
+
+    class PoliticaDescuento {
+        <<interface>>
+        +calcularDescuento(long subtotal)* long
+    }
+
+    class DescuentoPorVolumen {
+        -long UMBRAL_ALTO$
+        -long UMBRAL_MEDIO$
+        +calcularDescuento(long subtotal) long
+    }
+
+    class ReglaDomicilio {
+        -long TARIFA$
+        -long MINIMO_SIN_RECARGO$
+        +calcular(long neto, boolean pedidoVacio) long
+    }
+
+    class Cuenta {
+        -long unidades
+        -long subtotal
+        -long descuento
+        -long neto
+        -long domicilio
+        -long total
+        +getUnidades() long
+        +getSubtotal() long
+        +getDescuento() long
+        +getNeto() long
+        +getDomicilio() long
+        +getTotal() long
+        +toString() String
+    }
+
+    class CalculadoraCuenta {
+        -PoliticaDescuento politicaDescuento
+        -ReglaDomicilio reglaDomicilio
+        +CalculadoraCuenta(PoliticaDescuento politica, ReglaDomicilio regla)
+        +calcular(Pedido pedido) Cuenta
+    }
+
+    class Jornada {
+        -int clientes
+        -long unidades
+        -long recaudado
+        -Map~Producto, Long~ vendidos
+        +registrar(Pedido pedido, Cuenta cuenta) void
+        +getClientes() int
+        +getUnidades() long
+        +getRecaudado() long
+        +vendidosDe(Producto producto) long
+    }
+
+    class ConsolaRestaurante {
+        -Scanner scanner
+        -CalculadoraCuenta calculadora
+        +ConsolaRestaurante(Scanner scanner, CalculadoraCuenta calculadora)
+        +ejecutarJornada() void
+        -capturarPedido() Pedido
+        -mostrarMenu() void
+        -leerCantidad() int
+        -mostrarResumen(Pedido pedido, Cuenta cuenta) void
+        -mostrarJornada(Jornada jornada) void
+    }
+
+    class S11Reto04RestauranteMain {
+        +main(String[] args)$ void
+    }
+
+    %% Relaciones
+    PoliticaDescuento <|.. DescuentoPorVolumen : Implementa (OCP/LSP)
+    CalculadoraCuenta o-- PoliticaDescuento : Inyección DIP
+    CalculadoraCuenta --> ReglaDomicilio : Usa
+    CalculadoraCuenta ..> Pedido : Lee datos
+    CalculadoraCuenta ..> Cuenta : Genera inmutable
+    Pedido o-- Producto : Agrupa cantidades
+    ConsolaRestaurante --> CalculadoraCuenta : Invoca cálculo
+    ConsolaRestaurante ..> Pedido : Crea y llena
+    ConsolaRestaurante ..> Cuenta : Imprime resumen
+    ConsolaRestaurante o-- Jornada : Acumula totales
+    S11Reto04RestauranteMain ..> S11Reto04RestauranteMain : Ensambla objetos
+    S11Reto04RestauranteMain ..> DescuentoPorVolumen : Instancia
+    S11Reto04RestauranteMain ..> CalculadoraCuenta : Configura
+    S11Reto04RestauranteMain ..> ConsolaRestaurante : Inicia
+```
+
+### Flujo de Interacción y Responsabilidades (Secuencia)
+
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Cliente as Usuario / Consola
+    participant Main as S11Reto04RestauranteMain
+    participant UI as ConsolaRestaurante
+    participant Ped as Pedido
+    participant Calc as CalculadoraCuenta
+    participant Pol as PoliticaDescuento (DescuentoPorVolumen)
+    participant Dom as ReglaDomicilio
+    participant Cta as Cuenta
+    participant Jor as Jornada
+
+    Main->>Pol: new DescuentoPorVolumen()
+    Main->>Dom: new ReglaDomicilio()
+    Main->>Calc: new CalculadoraCuenta(politica, domicilio)
+    Main->>UI: new ConsolaRestaurante(scanner, calculadora).ejecutarJornada()
+    
+    loop Para cada cliente
+        UI->>Ped: new Pedido()
+        loop Selección de productos
+            Cliente->>UI: Opción del menú (1..4) + Cantidad (>0)
+            UI->>Ped: agregar(Producto, cantidad)
+        end
+        Cliente->>UI: Opción 5 (Finalizar)
+        
+        Note over UI,Calc: Inicia liquidación sin mezclar con consola
+        UI->>Calc: calcular(pedido)
+        Calc->>Ped: getSubtotal()
+        Calc->>Pol: calcularDescuento(subtotal)
+        Note over Calc: Valida contrato LSP (0 <= desc <= subtotal)
+        Calc->>Dom: calcular(neto, pedido.estaVacio())
+        Calc->>Ped: getUnidades()
+        Calc->>Cta: new Cuenta(unidades, subtotal, desc, neto, dom, total)
+        Calc-->>UI: Retorna objeto Cuenta
+        
+        UI->>UI: mostrarResumen(pedido, cuenta)
+        UI->>Jor: registrar(pedido, cuenta)
+        Cliente->>UI: ¿Otro cliente? (1=Sí / 2=No)
+    end
+
+    UI->>UI: mostrarJornada(jornada)
 ```
 
 | Archivo | Responsabilidad (motivo de cambio) |
