@@ -1,19 +1,19 @@
 public class S06Pedido {
-    // TODO 1: Declarar estado como campo privado String.
+    // TO DO 1: Declarar estado como campo privado String.
     private String estado;
 
     public S06Pedido() {
-        // TODO 2: Inicializar el estado en PENDIENTE.
+        // TO DO 2: Inicializar el estado en PENDIENTE.
         this.estado = "PENDIENTE";
     }
 
     public String getEstado() {
-        // TODO 3: Devolver el estado actual.
+        // TO DO 3: Devolver el estado actual.
         return this.estado;
     }
 
     public boolean enviar() {
-        // TODO 4: Enviar solo un pedido PENDIENTE; cambiar a ENVIADO y devolver si
+        // TO DO 4: Enviar solo un pedido PENDIENTE; cambiar a ENVIADO y devolver si
         // acepta.
         if (!"PENDIENTE".equals(this.estado)) {
             return false;
@@ -23,7 +23,7 @@ public class S06Pedido {
     }
 
     public boolean cancelar() {
-        // TODO 5: Cancelar solo un pedido PENDIENTE; cambiar a CANCELADO y devolver si
+        // TO DO 5: Cancelar solo un pedido PENDIENTE; cambiar a CANCELADO y devolver si
         // acepta.
         if (!"PENDIENTE".equals(this.estado)) {
             return false;
